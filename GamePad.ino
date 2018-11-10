@@ -20,10 +20,10 @@ int previousState[rowNum][colNum];
 Joystick_ Joystick(
 	JOYSTICK_DEFAULT_REPORT_ID,
 	JOYSTICK_TYPE_GAMEPAD,
-	1,                                // Button Count
-	JOYSTICK_DEFAULT_HATSWITCH_COUNT, // Hat Switch Count
-	true, true, false,                // X and Y, but no Z Axis
-	false, false, false,              // No Rx, Ry, or Rz
+	14,                               // PS4コントローラーと同じ数にしておく
+	JOYSTICK_DEFAULT_HATSWITCH_COUNT, // HatSwitch(十字キー)の数は1
+	true, true, true,                 // X, Y, Z軸を有効にする
+	true, true, true,                 // X, Y, Z回転を有効にする
 	false, false,                     // No rudder or throttle
 	false, false, false               // No accelerator, brake, or steering
 );
