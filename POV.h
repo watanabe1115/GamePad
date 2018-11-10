@@ -1,17 +1,18 @@
 #pragma once
 
-enum class E_POV {
-	Up = 0x01,
-	Down = 0x02,
-	Left = 0x04,
-	Right = 0x08,
+class POV {
+private:
+	const int HatSwitchNo = 0;
+	char pressedPOV = 0x00;
+
+public:
+	static const char Up = 0x01;
+	static const char Down = 0x02;
+	static const char Left = 0x04;
+	static const char Right = 0x08;
+
+	void press(char press);
+	void release(char release);
+	void update();
 };
 
-void pressPOVUp();
-void pressPOVDown();
-void pressPOVLeft();
-void pressPOVRight();
-void releasePOVUp();
-void releasePOVDown();
-void releasePOVLeft();
-void releasePOVRight();
