@@ -2,6 +2,7 @@
 
 #include "POV.h"
 
+
 typedef void (*ButtonEvent)();
 
 const int rowNum = 2;
@@ -115,4 +116,8 @@ void RegisterJoystickEvent() {
 	joystickButtonEvent[HIGH][0][1] = releasePOVDown;
 	joystickButtonEvent[HIGH][0][2] = releasePOVLeft;
 	joystickButtonEvent[HIGH][0][3] = releasePOVRight;
+	joystickButtonEvent[LOW][1][0] = pressButton1;
+	joystickButtonEvent[HIGH][1][0] = releaseButton1;
+	joystickButtonEvent[LOW][1][1] = pressButton2;
+	joystickButtonEvent[HIGH][1][1] = releaseButton2;
 }
