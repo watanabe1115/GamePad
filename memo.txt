@@ -1,0 +1,98 @@
+メモ
+
+DualShock4
+軸
+    X軸 - 左スティックのX軸
+    Y軸 - 左スティックのY軸
+    Z軸 - 右スティックのX軸
+    X回転 - L2のアナログ情報
+    Y回転 - R2のアナログ情報
+    Z回転 - 右スティックのY軸
+ボタン
+    1 - square
+    2 - cross
+    3 - circle
+    4 - triangle
+    5 - L1
+    6 - R1
+    7 - L2
+    8 - R2
+    9 - Share
+    10 - Option
+    11 - L3
+    12 - R3
+    13 - PSボタン
+    14 - タッチパネル
+ハットスイッチ(POV)
+    十字キーに対応
+
+ChillStream (Logicool製 XBOX風コントローラー)
+軸
+    X軸 - 左スティックのX軸
+    Y軸 - 左スティックのY軸
+    Z軸 - L2, R2のアナログ情報(L2で０R2で最大になる)
+    X回転 - 右スティックのX軸
+    Y回転 - 右スティックのY軸
+ボタン
+    1 - cross
+    2 - circle
+    3 - square
+    4 - triangle
+    5 - L1
+    6 - R1
+    7 - Back(Select)
+    8 - Start
+    9 - L3
+    10 - R3
+ハットスイッチ(POV)
+    十字キーに対応
+
+FPS PAD 4 PS4モード(HORI製 デュアルショック風コントローラー)
+軸
+    X軸 - 左スティックのX軸
+    Y軸 - 左スティックのY軸
+    Z軸 - 右スティックのX軸
+    X回転 - L2のアナログ情報
+    Y回転 - R2のアナログ情報
+    Z回転 - 右スティックのY軸
+ボタン
+    1 - square
+    2 - cross
+    3 - circle
+    4 - triangle
+    5 - L1
+    6 - R1
+    7 - L2
+    8 - R2
+    9 - Share
+    10 - Option
+    11 - L3
+    12 - R3
+    13 - PSボタン
+    14 - タッチパネル(物理的に存在しない)
+ハットスイッチ(POV)
+    十字キーに対応
+
+FPS PAD 4 PS3モード(HORI製 デュアルショック風コントローラー)
+軸
+    X軸 - 左スティックのX軸
+    Y軸 - 左スティックのY軸
+    Z軸 - 右スティックのX軸
+    Z回転 - 右スティックのY軸
+ボタン
+    1 - square
+    2 - cross
+    3 - circle
+    4 - triangle
+    5 - L1
+    6 - R1
+    7 - L2
+    8 - R2
+    9 - Share
+    10 - Option
+    11 - L3
+    12 - R3
+    13 - PSボタン
+ハットスイッチ(POV)
+    十字キーに対応
+
