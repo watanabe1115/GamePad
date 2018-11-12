@@ -1,35 +1,21 @@
 #include <Joystick.h>
 
+#include "PinManager.h"
 #include "POV.h"
 
+#define DUALSHOCK4_BUTTON_NUM 14
 
 typedef void (*ButtonEvent)();
-
-const int rowNum = 2;
-const int colNum = 5;
-const int rowPin[rowNum] = { 14, 15 };
-const int colPin[colNum] = { 2, 3, 4, 5, 6 };
 ButtonEvent ***joystickButtonEvent;
 
-// 現在のdigitalRead値
-int currentState[rowNum][colNum];
-// 一つ前のdigitalRead値
-int previousState[rowNum][colNum];
-
 // Set Joystick Config
-Joystick_ Joystick(
-	JOYSTICK_DEFAULT_REPORT_ID,
-	JOYSTICK_TYPE_GAMEPAD,
-	14,                               // PS4コントローラーと同じ数にしておく
-	JOYSTICK_DEFAULT_HATSWITCH_COUNT, // HatSwitch(十字キー)の数は1
-	true, true, true,                 // X, Y, Z軸を有効にする
-	true, true, true,                 // X, Y, Z回転を有効にする
-	false, false,                     // No rudder or throttle
-	false, false, false               // No accelerator, brake, or steering
-);
+Joystick_ Joystick(JOYSTICK_DEFAULT_REPORT_ID, JOYSTICK_TYPE_GAMEPAD, DUALSHOCK4_BUTTON_NUM, JOYSTICK_DEFAULT_HATSWITCH_COUNT, true, true, true, true, true, true, false, false, false, false, false);
+
+PinManager pinManager;
 
 void setup() {
-	InitializePins();
+	pinManager.setup();
+	pinManager.onDigitalReadChange = onDigitalReadValueChange;
 
 	Serial.begin(9600);
 
@@ -42,54 +28,13 @@ void setup() {
 }
 
 void loop() {
-	for(int i = 0; i < rowNum; i++) {
-		digitalWrite(rowPin[i], LOW);
-
-		for(int j = 0; j < colNum; j++) {
-			currentState[i][j] = digitalRead(colPin[j]);
-
-			if(currentState[i][j] != previousState[i][j]) {
-
-				// Serial.print("key(");
-				// Serial.print(currentState[i][j]);
-				// Serial.print(",");
-				// Serial.print(i);
-				// Serial.print(",");
-				// Serial.print(j);
-				// Serial.print(")");
-				// Serial.println(" ");
-
-				// 登録された各ボタンのイベントを実行
-				if(joystickButtonEvent[ currentState[i][j] ][i][j] != NULL) {
-					joystickButtonEvent[ currentState[i][j] ][i][j]();
-				}
-
-				previousState[i][j] = currentState[i][j];
-			}
-		}
-
-		digitalWrite(rowPin[i], HIGH);
-	}
+	pinManager.loop();
 }
 
-
-/**
- * PINの初期化を行う
- */
-void InitializePins() {
-	for(int i = 0; i < rowNum; i++) {
-		pinMode(rowPin[i], OUTPUT);
-	}
-	for(int i = 0; i < colNum; i++) {
-		pinMode(colPin[i], INPUT_PULLUP);
-	}
-
-	for( int i = 0; i < rowNum; i++){
-		for( int j = 0; j < colNum; j++){
-			currentState[i][j] = HIGH;
-			previousState[i][j] = HIGH;
-		}
-		digitalWrite(rowPin[i], HIGH);
+void onDigitalReadValueChange(int LOW_or_HIGH, int i, int j) {
+	// 登録された各ボタンのイベントを実行
+	if(joystickButtonEvent[ LOW_or_HIGH ][i][j] != NULL) {
+		joystickButtonEvent[ LOW_or_HIGH ][i][j]();
 	}
 }
 
@@ -100,14 +45,15 @@ void InitializePins() {
 void RegisterJoystickEvent() {
 	joystickButtonEvent = new ButtonEvent**[2];
 	for(int i = 0; i < 2; i++) {
-		joystickButtonEvent[i] = new ButtonEvent*[rowNum];
-		for(int j = 0; j < rowNum; j++) {
-			joystickButtonEvent[i][j] = new ButtonEvent[colNum];
-			for(int k = 0; k < colNum; k++) {
+		joystickButtonEvent[i] = new ButtonEvent*[PinManager::rowNum];
+		for(int j = 0; j < PinManager::rowNum; j++) {
+			joystickButtonEvent[i][j] = new ButtonEvent[PinManager::colNum];
+			for(int k = 0; k < PinManager::colNum; k++) {
 				joystickButtonEvent[i][j][k] = NULL;
 			}
 		}
 	}
+
 	joystickButtonEvent[LOW][0][0] = pressPOVUp;
 	joystickButtonEvent[LOW][0][1] = pressPOVDown;
 	joystickButtonEvent[LOW][0][2] = pressPOVLeft;
