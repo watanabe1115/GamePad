@@ -30,7 +30,7 @@ private:
 	static const int HatSwitchNo = 0;
 
 	/// 各ボタンの対応するPIN番号
-	ButtonName buttonPIN[PinManager::rowNum][PinManager::colNum];
+	ButtonName keyMatrixButtonName[PinManager::rowNum][PinManager::colNum];
 
 	PinManager pinManager;
 

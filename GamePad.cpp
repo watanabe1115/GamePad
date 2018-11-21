@@ -51,10 +51,10 @@ void GamePad::setupPadButton(PadKind kind)
 	switch(kind) {
 		case PadKind::DUALSHOCK4:
 		{
-			buttonPIN[0][0] = ButtonName::POV_UP;
-			buttonPIN[0][1] = ButtonName::POV_DOWN;
-			buttonPIN[0][2] = ButtonName::POV_LEFT;
-			buttonPIN[0][3] = ButtonName::POV_RIGHT;
+			keyMatrixButtonName[0][0] = ButtonName::POV_UP;
+			keyMatrixButtonName[0][1] = ButtonName::POV_DOWN;
+			keyMatrixButtonName[0][2] = ButtonName::POV_LEFT;
+			keyMatrixButtonName[0][3] = ButtonName::POV_RIGHT;
 		}
 		break;
 	}
@@ -62,7 +62,7 @@ void GamePad::setupPadButton(PadKind kind)
 
 bool GamePad::isPOV(int row, int col)
 {
-	ButtonName name = buttonPIN[row][col];
+	ButtonName name = keyMatrixButtonName[row][col];
 	switch(name) {
 		case ButtonName::POV_UP:
 		case ButtonName::POV_DOWN:
@@ -76,7 +76,7 @@ bool GamePad::isPOV(int row, int col)
 void GamePad::POV(int row, int col, int status)
 {
 	PovDirection p = PovDirection::NONE;
-	ButtonName name = buttonPIN[row][col];
+	ButtonName name = keyMatrixButtonName[row][col];
 	switch(name) {
 		case ButtonName::POV_UP:
 		{
@@ -145,5 +145,5 @@ void GamePad::updatePOV()
 
 void GamePad::isButton(int row, int col)
 {
-	ButtonName name = buttonPIN[row][col];
+	ButtonName name = keyMatrixButtonName[row][col];
 }
