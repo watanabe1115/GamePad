@@ -1,11 +1,16 @@
 #include "PinManager.h"
 
-void PinManager::setup() {
+void PinManager::setup(PinManagerEvent *event) {
 	for(int i = 0; i < rowNum; i++) {
 		pinMode(rowPin[i], OUTPUT);
 	}
 	for(int i = 0; i < colNum; i++) {
 		pinMode(colPin[i], INPUT_PULLUP);
+	}
+	for(int i = 0; i < analogDeviceNum; i++) {
+		for(int j = 0; j < analogPinNum; j++) {
+			pinMode(analogPin[i][j], INPUT);
+		}
 	}
 
 	for( int i = 0; i < rowNum; i++){
@@ -15,6 +20,8 @@ void PinManager::setup() {
 		}
 		digitalWrite(rowPin[i], HIGH);
 	}
+
+	this->event = event;
 }
 
 void PinManager::loop() {
@@ -26,23 +33,35 @@ void PinManager::loop() {
 
 			if(currentState[i][j] != previousState[i][j]) {
 
-				// Serial.print("key(");
-				// Serial.print(currentState[i][j]);
-				// Serial.print(",");
-				// Serial.print(i);
-				// Serial.print(",");
-				// Serial.print(j);
-				// Serial.print(")");
-				// Serial.println(" ");
+				Serial.print("key(");
+				Serial.print(currentState[i][j]);
+				Serial.print(",");
+				Serial.print(i);
+				Serial.print(",");
+				Serial.print(j);
+				Serial.print(")");
+				Serial.println(" ");
 
-				if(onDigitalReadChange) {
-					onDigitalReadChange(currentState[i][j], i, j);
-				}
+				// if(onDigitalReadChange) {
+				// 	onDigitalReadChange(i, j, currentState[i][j]);
+				// }
+				event->onDigitalReadChange(i, j, currentState[i][j]);
 
 				previousState[i][j] = currentState[i][j];
 			}
 		}
 
 		digitalWrite(rowPin[i], HIGH);
+	}
+
+
+	for(int i = 0; i < analogDeviceNum; i++) {
+		for(int j = 0; j < analogPinNum; j++) {
+			int value = analogRead(analogPin[i][j]);
+			// if(onAnalogReadChange) {
+			// 	onAnalogReadChange(i, j, value);
+			// }
+			event->onAnalogReadChange(i, j, value);
+		}
 	}
 }
