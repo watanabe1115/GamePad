@@ -33,6 +33,10 @@ void GamePad::onDigitalReadChange(int row, int col, int status)
 	if(isPOV(row, col)) {
 		POV(row, col, status);
 	}
+
+	if(isButton(row, col)) {
+		Button(row, col, status);
+	}
 }
 void GamePad::onAnalogReadChange(int i, int j, int value)
 {
@@ -55,6 +59,11 @@ void GamePad::setupPadButton(PadKind kind)
 			keyMatrixButtonName[0][1] = ButtonName::POV_DOWN;
 			keyMatrixButtonName[0][2] = ButtonName::POV_LEFT;
 			keyMatrixButtonName[0][3] = ButtonName::POV_RIGHT;
+
+			keyMatrixButtonName[1][0] = ButtonName::PLAYSTATION_SQUARE;
+			keyMatrixButtonName[1][1] = ButtonName::PLAYSTATION_CROSS;
+			keyMatrixButtonName[1][2] = ButtonName::PLAYSTATION_CIRCLE;
+			keyMatrixButtonName[1][3] = ButtonName::PLAYSTATION_TRIANGLE;
 		}
 		break;
 	}
@@ -111,7 +120,6 @@ void GamePad::POV(int row, int col, int status)
 }
 void GamePad::updatePOV()
 {
-	Serial.println((int)pressedPOV);
 	switch(pressedPOV) {
 		case static_cast<char>(PovDirection::UP):
 			Joystick.setHatSwitch(HatSwitchNo, 0);
@@ -143,7 +151,69 @@ void GamePad::updatePOV()
 	}
 }
 
-void GamePad::isButton(int row, int col)
+bool GamePad::isButton(int row, int col)
 {
 	ButtonName name = keyMatrixButtonName[row][col];
+	switch(name) {
+		case ButtonName::PLAYSTATION_SQUARE:
+		case ButtonName::PLAYSTATION_CROSS:
+		case ButtonName::PLAYSTATION_CIRCLE:
+		case ButtonName::PLAYSTATION_TRIANGLE:
+		case ButtonName::SWITCH_Y:
+		case ButtonName::SWITCH_B:
+		case ButtonName::SWITCH_A:
+		case ButtonName::SWITCH_X:
+		case ButtonName::XBOX_X:
+		case ButtonName::XBOX_A:
+		case ButtonName::XBOX_B:
+		case ButtonName::XBOX_Y:
+		return true;
+		break;
+	}
+	return false;
 }
+void GamePad::Button(int row, int col, int status)
+{
+	ButtonName name = keyMatrixButtonName[row][col];
+	int value = 0;
+	if(status == LOW) {
+		value = 1;
+	} else if(status == HIGH) {
+		value = 0;
+	}
+
+	switch(name) {
+		case ButtonName::PLAYSTATION_SQUARE:
+		case ButtonName::SWITCH_Y:
+		case ButtonName::XBOX_X:
+		{
+			Joystick.setButton(0, value);
+		}
+		break;
+		case ButtonName::PLAYSTATION_CROSS:
+		case ButtonName::SWITCH_B:
+		case ButtonName::XBOX_A:
+		{
+			Joystick.setButton(1, value);
+		}
+		break;
+		case ButtonName::PLAYSTATION_CIRCLE:
+		case ButtonName::SWITCH_A:
+		case ButtonName::XBOX_B:
+		{
+			Joystick.setButton(2, value);
+		}
+		break;
+		case ButtonName::PLAYSTATION_TRIANGLE:
+		case ButtonName::SWITCH_X:
+		case ButtonName::XBOX_Y:
+		{
+			Joystick.setButton(3, value);
+		}
+		break;
+	}
+}
+
+
+
+

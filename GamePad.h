@@ -45,7 +45,7 @@ private:
 	void POV(int row, int col, int status);
 	void updatePOV();
 
-	void isButton(int row, int col);
+	bool isButton(int row, int col);
 	void Button(int row, int col, int status);
-	void updateButton();
+
 };
