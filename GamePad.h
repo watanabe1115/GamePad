@@ -49,4 +49,5 @@ private:
 	bool isButton(int row, int col);
 	void Button(int row, int col, int status);
 
+	void Stick(int deviceNo, int pinNo, int value);
 };

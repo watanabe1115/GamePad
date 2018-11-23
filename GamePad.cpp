@@ -53,30 +53,7 @@ void GamePad::onAnalogReadChange(int deviceNo, int pinNo, int value)
 	// Serial.print(value);
 	// Serial.println(")");
 
-	if(value > CenterStickValue - StickCalibrate && value < CenterStickValue + StickCalibrate) {
-		value = CenterStickValue;
-	}
-
-	if(deviceNo == 0) {
-		switch(pinNo) {
-			case 0:
-				Joystick.setXAxis(value);
-			break;
-			case 1:
-				Joystick.setYAxis(value);
-			break;
-		}
-	}
-	else if(deviceNo == 1) {
-		switch(pinNo) {
-			case 0:
-				Joystick.setZAxis(value);
-			break;
-			case 1:
-				Joystick.setRzAxis(value);
-			break;
-		}
-	}
+	Stick(deviceNo, pinNo, value);
 }
 
 
@@ -244,6 +221,32 @@ void GamePad::Button(int row, int col, int status)
 	}
 }
 
+void GamePad::Stick(int deviceNo, int pinNo, int value)
+{
+	if(value > CenterStickValue - StickCalibrate && value < CenterStickValue + StickCalibrate) {
+		value = CenterStickValue;
+	}
 
+	if(deviceNo == 0) {
+		switch(pinNo) {
+			case 0:
+				Joystick.setXAxis(value);
+			break;
+			case 1:
+				Joystick.setYAxis(value);
+			break;
+		}
+	}
+	else if(deviceNo == 1) {
+		switch(pinNo) {
+			case 0:
+				Joystick.setZAxis(value);
+			break;
+			case 1:
+				Joystick.setRzAxis(value);
+			break;
+		}
+	}
+}
 
 
