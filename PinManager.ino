@@ -21,6 +21,16 @@ void PinManager::setup(PinManagerEvent *event) {
 		digitalWrite(rowPin[i], HIGH);
 	}
 
+	for(int i = 0; i < analogDeviceNum; i++) {
+		for(int j = 0; j < analogPinNum; j++) {
+			currentAnalogValue[i][j] = 0;
+			previousAnalogValue[i][j] = 0;
+		}
+	}
+
+	pinMode(16, OUTPUT);
+	digitalWrite(16, HIGH);
+
 	this->event = event;
 }
 
@@ -42,9 +52,6 @@ void PinManager::loop() {
 				Serial.print(")");
 				Serial.println(" ");
 
-				// if(onDigitalReadChange) {
-				// 	onDigitalReadChange(i, j, currentState[i][j]);
-				// }
 				event->onDigitalReadChange(i, j, currentState[i][j]);
 
 				previousState[i][j] = currentState[i][j];
@@ -57,11 +64,15 @@ void PinManager::loop() {
 
 	for(int i = 0; i < analogDeviceNum; i++) {
 		for(int j = 0; j < analogPinNum; j++) {
-			int value = analogRead(analogPin[i][j]);
-			// if(onAnalogReadChange) {
-			// 	onAnalogReadChange(i, j, value);
-			// }
-			event->onAnalogReadChange(i, j, value);
+			currentAnalogValue[i][j] = analogRead(analogPin[i][j]);
+
+			int a = currentAnalogValue[i][j] - previousAnalogValue[i][j];
+
+			if(a < (analogCalibrate * -1) || analogCalibrate < a) {
+				event->onAnalogReadChange(i, j, currentAnalogValue[i][j]);
+
+				previousAnalogValue[i][j] = currentAnalogValue[i][j];
+			}
 		}
 	}
 }

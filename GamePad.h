@@ -1,9 +1,11 @@
 #pragma once
 
 #include "PinManager.h"
+
+#include "PovDirection.h"
 #include "ButtonName.h"
 
-using namespace Constants;
+using namespace GamePadConstants;
 
 class GamePad : PinManagerEvent {
 public:
@@ -17,17 +19,16 @@ public:
 	void loop();
 
 	void onDigitalReadChange(int row, int col, int status);
-	void onAnalogReadChange(int i, int j, int value);
+	void onAnalogReadChange(int deviceNo, int pinNo, int value);
 private:
 
-	enum class PovDirection {
-		NONE = 0,
-		UP = 1, 
-		DOWN = 2,
-		LEFT = 4,
-		RIGHT = 8
-	};
 	static const int HatSwitchNo = 0;
+
+	static const int MinStickValue = 0;
+	static const int MaxStickValue = 1024;
+	static const int StickCalibrate = 64;
+	static const int CenterStickValue = (MinStickValue + MaxStickValue) / 2;
+
 
 	/// 各ボタンの対応するPIN番号
 	ButtonName keyMatrixButtonName[PinManager::rowNum][PinManager::colNum];

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Constants {
+namespace GamePadConstants {
 	enum class ButtonName {
 		NONE,
 		

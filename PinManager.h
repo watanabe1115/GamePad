@@ -24,6 +24,13 @@ private:
 	// 一つ前のdigitalRead値
 	int previousState[rowNum][colNum];
 
+	int currentAnalogValue[analogDeviceNum][analogPinNum];
+	int previousAnalogValue[analogDeviceNum][analogPinNum];
+
+	// この値以下の変動は無視されます.
+	const int analogCalibrate = 4;
+	
+
 	PinManagerEvent *event;
 
 public:

@@ -12,6 +12,11 @@ void GamePad::setup(PadKind padKind)
 	pinManager.setup(this);
 
 	setupPadButton(padKind);
+
+	Joystick.setXAxisRange(0, 1024);
+	Joystick.setYAxisRange(0, 1024);
+	Joystick.setZAxisRange(0, 1024);
+	Joystick.setRzAxisRange(0, 1024);
 }
 
 void GamePad::loop()
@@ -38,15 +43,40 @@ void GamePad::onDigitalReadChange(int row, int col, int status)
 		Button(row, col, status);
 	}
 }
-void GamePad::onAnalogReadChange(int i, int j, int value)
+void GamePad::onAnalogReadChange(int deviceNo, int pinNo, int value)
 {
-	// Serial.print("onAnalogReadChange (");
-	// Serial.print(i);
+	// Serial.print("onDigitalReadChange (");
+	// Serial.print(deviceNo);
 	// Serial.print(", ");
-	// Serial.print(j);
+	// Serial.print(pinNo);
 	// Serial.print(", ");
 	// Serial.print(value);
 	// Serial.println(")");
+
+	if(value > CenterStickValue - StickCalibrate && value < CenterStickValue + StickCalibrate) {
+		value = CenterStickValue;
+	}
+
+	if(deviceNo == 0) {
+		switch(pinNo) {
+			case 0:
+				Joystick.setXAxis(value);
+			break;
+			case 1:
+				Joystick.setYAxis(value);
+			break;
+		}
+	}
+	else if(deviceNo == 1) {
+		switch(pinNo) {
+			case 0:
+				Joystick.setZAxis(value);
+			break;
+			case 1:
+				Joystick.setRzAxis(value);
+			break;
+		}
+	}
 }
 
 
