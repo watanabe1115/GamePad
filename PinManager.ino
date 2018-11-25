@@ -7,6 +7,9 @@ void PinManager::setup(PinManagerEvent *event) {
 	for(int i = 0; i < digitalkeyMatrixColNum; i++) {
 		pinMode(digitalKeyMatrixColPin[i], INPUT_PULLUP);
 	}
+	for(int i = 0; i < digitalNum; i++) {
+		pinMode(digitalPin[i], INPUT_PULLUP);
+	}
 	for(int i = 0; i < analogDeviceNum; i++) {
 		for(int j = 0; j < analogPinNum; j++) {
 			pinMode(analogPin[i][j], INPUT);
@@ -20,16 +23,16 @@ void PinManager::setup(PinManagerEvent *event) {
 		}
 		digitalWrite(digitalKeyMatrixRowPin[i], HIGH);
 	}
-
+	for(int i = 0; i < digitalNum; i++) {
+		currentDigitalState[i] = HIGH;
+		previousDigitalState[i] = HIGH;
+	}
 	for(int i = 0; i < analogDeviceNum; i++) {
 		for(int j = 0; j < analogPinNum; j++) {
 			currentAnalogValue[i][j] = 0;
 			previousAnalogValue[i][j] = 0;
 		}
 	}
-
-	pinMode(16, OUTPUT);
-	digitalWrite(16, HIGH);
 
 	this->event = event;
 }
@@ -61,6 +64,16 @@ void PinManager::loop() {
 		digitalWrite(digitalKeyMatrixRowPin[i], HIGH);
 	}
 
+	for(int i = 0; i < digitalNum; i++) {
+		currentDigitalState[i] = digitalRead(digitalPin[i]);
+
+		if(currentDigitalState[i] != previousDigitalState[i]) {
+
+			event->onDigitalReadChange(digitalPin[i], currentDigitalState[i]);
+
+			previousDigitalState[i] = currentDigitalState[i];
+		}
+	}
 
 	for(int i = 0; i < analogDeviceNum; i++) {
 		for(int j = 0; j < analogPinNum; j++) {

@@ -18,6 +18,7 @@ public:
 	void setup(PadKind padKind);
 	void loop();
 
+	void onDigitalReadChange(int pinNo, int state);
 	void onDigitalReadChange(int row, int col, int status);
 	void onAnalogReadChange(int deviceNo, int pinNo, int value);
 private:

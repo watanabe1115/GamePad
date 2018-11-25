@@ -24,7 +24,16 @@ void GamePad::loop()
 	pinManager.loop();
 }
 
-
+void GamePad::onDigitalReadChange(int pinNo, int status)
+{
+	// Serial.print("onDigitalReadChange (");
+	// Serial.print(row);
+	// Serial.print(", ");
+	// Serial.print(col);
+	// Serial.print(", ");
+	// Serial.print(status);
+	// Serial.println(")");
+}
 void GamePad::onDigitalReadChange(int row, int col, int status)
 {
 	// Serial.print("onDigitalReadChange (");
