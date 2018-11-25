@@ -2,9 +2,9 @@
 
 class PinManagerEvent {
 public:
-	virtual void onDigitalReadChange(int pinNo, int state);
-	virtual void onDigitalReadChange(int i, int j, int status);
-	virtual void onAnalogReadChange(int i, int j, int value);
+	virtual void onDigitalReadChange(int pinIndex, int state);
+	virtual void onDigitalReadChange(int rowPinIndex, int colPinIndex, int status);
+	virtual void onAnalogReadChange(int deviceNum, int pinIndex, int value);
 };
 
 

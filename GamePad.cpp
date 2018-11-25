@@ -24,7 +24,7 @@ void GamePad::loop()
 	pinManager.loop();
 }
 
-void GamePad::onDigitalReadChange(int pinNo, int status)
+void GamePad::onDigitalReadChange(int pinIndex, int status)
 {
 	// Serial.print("onDigitalReadChange (");
 	// Serial.print(row);
@@ -34,7 +34,7 @@ void GamePad::onDigitalReadChange(int pinNo, int status)
 	// Serial.print(status);
 	// Serial.println(")");
 }
-void GamePad::onDigitalReadChange(int row, int col, int status)
+void GamePad::onDigitalReadChange(int rowPinIndex, int colPinIndex, int status)
 {
 	// Serial.print("onDigitalReadChange (");
 	// Serial.print(row);
@@ -44,15 +44,15 @@ void GamePad::onDigitalReadChange(int row, int col, int status)
 	// Serial.print(status);
 	// Serial.println(")");
 
-	if(isPOV(row, col)) {
-		POV(row, col, status);
+	if(isPOV(rowPinIndex, colPinIndex)) {
+		POV(rowPinIndex, colPinIndex, status);
 	}
 
-	if(isButton(row, col)) {
-		Button(row, col, status);
+	if(isButton(rowPinIndex, colPinIndex)) {
+		Button(rowPinIndex, colPinIndex, status);
 	}
 }
-void GamePad::onAnalogReadChange(int deviceNo, int pinNo, int value)
+void GamePad::onAnalogReadChange(int deviceNo, int pinIndex, int value)
 {
 	// Serial.print("onDigitalReadChange (");
 	// Serial.print(deviceNo);
@@ -62,7 +62,7 @@ void GamePad::onAnalogReadChange(int deviceNo, int pinNo, int value)
 	// Serial.print(value);
 	// Serial.println(")");
 
-	Stick(deviceNo, pinNo, value);
+	Stick(deviceNo, pinIndex, value);
 }
 
 
@@ -230,14 +230,14 @@ void GamePad::Button(int row, int col, int status)
 	}
 }
 
-void GamePad::Stick(int deviceNo, int pinNo, int value)
+void GamePad::Stick(int deviceNo, int pinIndex, int value)
 {
 	if(value > CenterStickValue - StickCalibrate && value < CenterStickValue + StickCalibrate) {
 		value = CenterStickValue;
 	}
 
 	if(deviceNo == 0) {
-		switch(pinNo) {
+		switch(pinIndex) {
 			case 0:
 				Joystick.setXAxis(value);
 			break;
@@ -247,7 +247,7 @@ void GamePad::Stick(int deviceNo, int pinNo, int value)
 		}
 	}
 	else if(deviceNo == 1) {
-		switch(pinNo) {
+		switch(pinIndex) {
 			case 0:
 				Joystick.setZAxis(value);
 			break;

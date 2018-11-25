@@ -69,7 +69,7 @@ void PinManager::loop() {
 
 		if(currentDigitalState[i] != previousDigitalState[i]) {
 
-			event->onDigitalReadChange(digitalPin[i], currentDigitalState[i]);
+			event->onDigitalReadChange(i, currentDigitalState[i]);
 
 			previousDigitalState[i] = currentDigitalState[i];
 		}
