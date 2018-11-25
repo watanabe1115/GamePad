@@ -15,8 +15,8 @@ public:
 	static const int analogPinNum = 2;
 
 private:
-	const int rowPin[rowNum]{14, 15};
-	const int colPin[colNum]{2, 3, 4, 5, 6};
+	const int digitalKeyMatrixRowPin[rowNum]{14, 15};
+	const int digitalKeyMatrixColPin[colNum]{2, 3, 4, 5, 6};
 	const int analogPin[analogDeviceNum][analogPinNum]{ {A0, A1},{A2, A3} };
 
 	// 現在のdigitalRead値
