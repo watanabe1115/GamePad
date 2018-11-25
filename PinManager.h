@@ -9,13 +9,13 @@ public:
 
 class PinManager {
 public:
-	static const int rowNum = 2;
+	static const int rowNum = 3;
 	static const int colNum = 5;
 	static const int analogDeviceNum = 2;
 	static const int analogPinNum = 2;
 
 private:
-	const int digitalKeyMatrixRowPin[rowNum]{14, 15};
+	const int digitalKeyMatrixRowPin[rowNum]{14, 15, 16};
 	const int digitalKeyMatrixColPin[colNum]{2, 3, 4, 5, 6};
 	const int analogPin[analogDeviceNum][analogPinNum]{ {A0, A1},{A2, A3} };
 
