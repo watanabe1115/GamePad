@@ -9,20 +9,20 @@ public:
 
 class PinManager {
 public:
-	static const int rowNum = 3;
-	static const int colNum = 5;
+	static const int digitalKeyMatrixRowNum = 3;
+	static const int digitalkeyMatrixColNum = 5;
 	static const int analogDeviceNum = 2;
 	static const int analogPinNum = 2;
 
 private:
-	const int digitalKeyMatrixRowPin[rowNum]{14, 15, 16};
-	const int digitalKeyMatrixColPin[colNum]{2, 3, 4, 5, 6};
+	const int digitalKeyMatrixRowPin[digitalKeyMatrixRowNum]{14, 15, 16};
+	const int digitalKeyMatrixColPin[digitalkeyMatrixColNum]{2, 3, 4, 5, 6};
 	const int analogPin[analogDeviceNum][analogPinNum]{ {A0, A1},{A2, A3} };
 
 	// 現在のdigitalRead値
-	int currentState[rowNum][colNum];
+	int currentState[digitalKeyMatrixRowNum][digitalkeyMatrixColNum];
 	// 一つ前のdigitalRead値
-	int previousState[rowNum][colNum];
+	int previousState[digitalKeyMatrixRowNum][digitalkeyMatrixColNum];
 
 	int currentAnalogValue[analogDeviceNum][analogPinNum];
 	int previousAnalogValue[analogDeviceNum][analogPinNum];

@@ -31,7 +31,7 @@ private:
 
 
 	/// 各ボタンの対応するPIN番号
-	ButtonName keyMatrixButtonName[PinManager::rowNum][PinManager::colNum];
+	ButtonName keyMatrixButtonName[PinManager::digitalKeyMatrixRowNum][PinManager::digitalkeyMatrixColNum];
 
 	PinManager pinManager;
 

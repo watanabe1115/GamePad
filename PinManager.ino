@@ -1,10 +1,10 @@
 #include "PinManager.h"
 
 void PinManager::setup(PinManagerEvent *event) {
-	for(int i = 0; i < rowNum; i++) {
+	for(int i = 0; i < digitalKeyMatrixRowNum; i++) {
 		pinMode(digitalKeyMatrixRowPin[i], OUTPUT);
 	}
-	for(int i = 0; i < colNum; i++) {
+	for(int i = 0; i < digitalkeyMatrixColNum; i++) {
 		pinMode(digitalKeyMatrixColPin[i], INPUT_PULLUP);
 	}
 	for(int i = 0; i < analogDeviceNum; i++) {
@@ -13,8 +13,8 @@ void PinManager::setup(PinManagerEvent *event) {
 		}
 	}
 
-	for( int i = 0; i < rowNum; i++){
-		for( int j = 0; j < colNum; j++){
+	for( int i = 0; i < digitalKeyMatrixRowNum; i++){
+		for( int j = 0; j < digitalkeyMatrixColNum; j++){
 			currentState[i][j] = HIGH;
 			previousState[i][j] = HIGH;
 		}
@@ -35,10 +35,10 @@ void PinManager::setup(PinManagerEvent *event) {
 }
 
 void PinManager::loop() {
-	for(int i = 0; i < rowNum; i++) {
+	for(int i = 0; i < digitalKeyMatrixRowNum; i++) {
 		digitalWrite(digitalKeyMatrixRowPin[i], LOW);
 
-		for(int j = 0; j < colNum; j++) {
+		for(int j = 0; j < digitalkeyMatrixColNum; j++) {
 			currentState[i][j] = digitalRead(digitalKeyMatrixColPin[j]);
 
 			if(currentState[i][j] != previousState[i][j]) {
