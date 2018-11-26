@@ -7,13 +7,11 @@ void PinManager::setup(PinManagerEvent *event) {
 	for(int i = 0; i < digitalkeyMatrixColNum; i++) {
 		pinMode(digitalKeyMatrixColPin[i], INPUT_PULLUP);
 	}
-	for(int i = 0; i < digitalNum; i++) {
+	for(int i = 0; i < digitalPinNum; i++) {
 		pinMode(digitalPin[i], INPUT_PULLUP);
 	}
-	for(int i = 0; i < analogDeviceNum; i++) {
-		for(int j = 0; j < analogPinNum; j++) {
-			pinMode(analogPin[i][j], INPUT);
-		}
+	for(int i = 0; i < analogPinNum; i++) {
+		pinMode(analogPin[i], INPUT);
 	}
 
 	for( int i = 0; i < digitalKeyMatrixRowNum; i++){
@@ -23,15 +21,13 @@ void PinManager::setup(PinManagerEvent *event) {
 		}
 		digitalWrite(digitalKeyMatrixRowPin[i], HIGH);
 	}
-	for(int i = 0; i < digitalNum; i++) {
+	for(int i = 0; i < digitalPinNum; i++) {
 		currentDigitalState[i] = HIGH;
 		previousDigitalState[i] = HIGH;
 	}
-	for(int i = 0; i < analogDeviceNum; i++) {
-		for(int j = 0; j < analogPinNum; j++) {
-			currentAnalogValue[i][j] = 0;
-			previousAnalogValue[i][j] = 0;
-		}
+	for(int i = 0; i < analogPinNum; i++) {
+			currentAnalogValue[i] = 0;
+			previousAnalogValue[i] = 0;
 	}
 
 	this->event = event;
@@ -64,7 +60,7 @@ void PinManager::loop() {
 		digitalWrite(digitalKeyMatrixRowPin[i], HIGH);
 	}
 
-	for(int i = 0; i < digitalNum; i++) {
+	for(int i = 0; i < digitalPinNum; i++) {
 		currentDigitalState[i] = digitalRead(digitalPin[i]);
 
 		if(currentDigitalState[i] != previousDigitalState[i]) {
@@ -75,17 +71,16 @@ void PinManager::loop() {
 		}
 	}
 
-	for(int i = 0; i < analogDeviceNum; i++) {
-		for(int j = 0; j < analogPinNum; j++) {
-			currentAnalogValue[i][j] = analogRead(analogPin[i][j]);
+	for(int i = 0; i < analogPinNum; i++) {
+		currentAnalogValue[i] = analogRead(analogPin[i]);
 
-			int a = currentAnalogValue[i][j] - previousAnalogValue[i][j];
+		int diff = currentAnalogValue[i] - previousAnalogValue[i];
 
-			if(a < (analogCalibrate * -1) || analogCalibrate < a) {
-				event->onAnalogReadChange(i, j, currentAnalogValue[i][j]);
+		if(diff < (analogCalibrate * -1) || analogCalibrate < diff) {
 
-				previousAnalogValue[i][j] = currentAnalogValue[i][j];
-			}
+			event->onAnalogReadChange(i, currentAnalogValue[i]);
+
+			previousAnalogValue[i] = currentAnalogValue[i];
 		}
 	}
 }

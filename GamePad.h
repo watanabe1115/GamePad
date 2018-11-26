@@ -20,7 +20,7 @@ public:
 
 	void onDigitalReadChange(int pinIndex, int state);
 	void onDigitalReadChange(int rowPinIndex, int colPinIndex, int status);
-	void onAnalogReadChange(int deviceNo, int pinIndex, int value);
+	void onAnalogReadChange(int pinIndex, int value);
 private:
 
 	static const int HatSwitchNo = 0;
@@ -50,5 +50,5 @@ private:
 	bool isButton(int row, int col);
 	void Button(int row, int col, int status);
 
-	void Stick(int deviceNo, int pinIndex, int value);
+	void Stick(int pinIndex, int value);
 };
