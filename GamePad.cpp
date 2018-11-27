@@ -11,7 +11,8 @@ void GamePad::setup(PadKind padKind)
 	Joystick.begin();
 	pinManager.setup(this);
 
-	setupPadButton(padKind);
+	setupKeyMatrixButton(padKind);
+	setupDigitalButton(padKind);
 
 	Joystick.setXAxisRange(0, 1024);
 	Joystick.setYAxisRange(0, 1024);
@@ -33,6 +34,13 @@ void GamePad::onDigitalReadChange(int pinIndex, int status)
 	// Serial.print(", ");
 	// Serial.print(status);
 	// Serial.println(")");
+
+	if(pinIndex == 0) {
+		Joystick.setButton(11, !status);
+	} else if(pinIndex == 1) {
+		Joystick.setButton(12, !status);
+	}
+
 }
 void GamePad::onDigitalReadChange(int rowPinIndex, int colPinIndex, int status)
 {
@@ -66,7 +74,7 @@ void GamePad::onAnalogReadChange(int pinIndex, int value)
 }
 
 
-void GamePad::setupPadButton(PadKind kind)
+void GamePad::setupKeyMatrixButton(PadKind kind)
 {
 	switch(kind) {
 		case PadKind::DUALSHOCK4:
@@ -80,6 +88,17 @@ void GamePad::setupPadButton(PadKind kind)
 			keyMatrixButtonName[1][1] = ButtonName::PLAYSTATION_CROSS;
 			keyMatrixButtonName[1][2] = ButtonName::PLAYSTATION_CIRCLE;
 			keyMatrixButtonName[1][3] = ButtonName::PLAYSTATION_TRIANGLE;
+		}
+		break;
+	}
+}
+void GamePad::setupDigitalButton(PadKind kind)
+{
+	switch(kind) {
+		case PadKind::DUALSHOCK4:
+		{
+			digitalButtonName[0] = ButtonName::PLAYSTATION_L3;
+			digitalButtonName[1] = ButtonName::PLAYSTATION_R3;
 		}
 		break;
 	}
@@ -248,6 +267,26 @@ void GamePad::Stick(int pinIndex, int value)
 		break;
 		case 3:
 			Joystick.setRzAxis(value);
+		break;
+	}
+}
+
+void GamePad::StickButton(int pinIndex, int status)
+{
+	ButtonName name = digitalButtonName[pinIndex];
+	int value = 0;
+	if(status == LOW) {
+		value = 1;
+	} else if(status == HIGH) {
+		value = 0;
+	}
+
+	switch(name) {
+		case ButtonName::PLAYSTATION_L3:
+			Joystick.setButton(11, value);
+		break;
+		case ButtonName::PLAYSTATION_R3:
+			Joystick.setButton(12, value);
 		break;
 	}
 }

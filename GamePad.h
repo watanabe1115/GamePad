@@ -33,6 +33,7 @@ private:
 
 	/// 各ボタンの対応するPIN番号
 	ButtonName keyMatrixButtonName[PinManager::digitalKeyMatrixRowNum][PinManager::digitalkeyMatrixColNum];
+	ButtonName digitalButtonName[PinManager::digitalPinNum];
 
 	PinManager pinManager;
 
@@ -40,7 +41,8 @@ private:
 
 	char pressedPOV = 0x00;
 
-	void setupPadButton(PadKind kind);
+	void setupKeyMatrixButton(PadKind kind);
+	void setupDigitalButton(PadKind kind);
 
 
 	bool isPOV(int row, int col);
@@ -51,4 +53,5 @@ private:
 	void Button(int row, int col, int status);
 
 	void Stick(int pinIndex, int value);
+	void StickButton(int pinIndex, int value);
 };
